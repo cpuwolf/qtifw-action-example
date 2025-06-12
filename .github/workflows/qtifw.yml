@@ -42,7 +42,7 @@ jobs:
     steps:
     - name: Set enviroment for release
       run: |
-        echo "RELEASE_TAG=v1.0.0" >> $GITHUB_ENV
+        echo "RELEASE_TAG=v1.1" >> $GITHUB_ENV
         echo "RELEASE_NAME=$GITHUB_WORKFLOW" >> $GITHUB_ENV
 
     - name: Download artifact
@@ -61,8 +61,8 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         files: >
           installer_lin:installer
-          installer_mac:installer.zip
-          installer_win:installer.exe
+          installer_mac.zip:installer.zip
+          installer_win.exe:installer.exe
 
 
 
