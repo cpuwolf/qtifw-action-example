@@ -28,7 +28,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: buildoutput-${{ matrix.os }}
-        path: ${{github.workspace}}/build/xp11
+        path: ${{github.workspace}}/installer
 
   jbrelease:
     needs: build
