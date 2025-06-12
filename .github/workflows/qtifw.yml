@@ -1,0 +1,63 @@
+name: qtifw
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-13, windows-latest, ubuntu-22.04]
+
+    steps:
+    - uses: actions/checkout@v4.0.0 
+      with:
+        token: ${{ secrets.MY_REPO_PAT }}
+        submodules: recursive
+
+    - uses: jmarrec/setup-qtifw@v1
+      with:
+        qtifw-version: '4.9' # Version range or exact version of a QtIFW version to use, using SemVer's version range syntax
+    - run: binarycreator --offline-only -c config/config.xml -p packages installer
+
+
+    - name: Upload build
+      uses: actions/upload-artifact@v4
+      with:
+        name: buildoutput-${{ matrix.os }}
+        path: ${{github.workspace}}/build/xp11
+
+  jbrelease:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set enviroment for release
+      run: |
+        echo "RELEASE_TAG=v1.0.0" >> $GITHUB_ENV
+        echo "RELEASE_NAME=$GITHUB_WORKFLOW" >> $GITHUB_ENV
+
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+          pattern: buildoutput-*
+          merge-multiple: true          
+
+    - name: Upload to Release
+      uses: meeDamian/github-release@2.0
+      with:
+        # tag: ${{ env.RELEASE_TAG }}
+        draft: true
+        allow_override: true
+        gzip: false
+        token: ${{ secrets.GITHUB_TOKEN }}
+        files: >
+          installer
+
+
+
