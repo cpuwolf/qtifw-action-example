@@ -18,9 +18,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4.0.0 
 
-    - uses: jmarrec/setup-qtifw@v1
+    - uses: jmarrec/setup-qtifw@v1.3.1
       with:
-        qtifw-version: '4.9' # Version range or exact version of a QtIFW version to use, using SemVer's version range syntax
+        qtifw-version: '4.x' # Version range or exact version of a QtIFW version to use, using SemVer's version range syntax
     - run: binarycreator --offline-only -c config/config.xml -p packages installer
 
 
