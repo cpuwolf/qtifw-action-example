@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2017 The Qt Company Ltd.
+** Copyright (C) 2022 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the FOO module of the Qt Toolkit.
@@ -28,33 +28,12 @@
 
 function Component()
 {
-    // constructor
-    component.loaded.connect(this, Component.prototype.loaded);
-    installer.addWizardPage(component, "Page", QInstaller.TargetDirectory)
+    if (!installer.isCommandLineInstance())
+        gui.pageWidgetByObjectName("LicenseAgreementPage").entered.connect(changeLicenseLabels);
 }
 
-Component.prototype.createOperations = function()
+changeLicenseLabels = function()
 {
-    try {
-        // call the base create operations function
-        component.createOperations();
-    } catch (e) {
-        console.log(e);
-    }
-}
-
-Component.prototype.loaded = function ()
-{
-    var page = gui.pageByObjectName("DynamicPage");
-    if (page != null) {
-        page.entered.connect(Component.prototype.dynamicPageEntered);
-    }
-}
-
-Component.prototype.dynamicPageEntered = function ()
-{
-    var pageWidget = gui.pageWidgetByObjectName("DynamicPage");
-    if (pageWidget != null) {
-        pageWidget.m_pageLabel.text = qsTranslate("installscript", "This is a dynamically created page.");
-    }
+    page = gui.pageWidgetByObjectName("LicenseAgreementPage");
+    page.AcceptLicenseLabel.setText("Yes I do!");
 }
