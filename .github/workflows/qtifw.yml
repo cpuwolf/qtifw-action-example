@@ -51,7 +51,7 @@ jobs:
         tag: ${{ env.RELEASE_TAG }}
         draft: true
         allow_override: true
-        gzip: false
+        gzip: true
         token: ${{ secrets.GITHUB_TOKEN }}
         files: >
           installer
