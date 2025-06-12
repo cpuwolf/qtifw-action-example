@@ -60,9 +60,9 @@ jobs:
         gzip: folders
         token: ${{ secrets.GITHUB_TOKEN }}
         files: >
-          installer
-          installer.zip
-          installer.exe
+          installer_lin:installer
+          installer_mac:installer.zip
+          installer_win:installer.exe
 
 
 
