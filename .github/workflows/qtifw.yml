@@ -55,7 +55,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         files: >
           installer
-          installer.app
+          installer.app/
           installer.exe
 
 
